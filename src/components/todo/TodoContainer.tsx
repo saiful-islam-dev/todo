@@ -1,10 +1,16 @@
-import { useAppSelector } from "@/redux/hook";
+// import { useAppSelector } from "@/redux/hook";
 import AddTodoModel from "./AddTodoModel";
 import TodoCard from "./TodoCard";
 import TodoFilter from "./TodoFilter";
+import { useGetTodosQuery } from "@/redux/api/api";
 
 const TodoContainer = () => {
-  const { todos } = useAppSelector((state) => state.todo);
+  // const { todos } = useAppSelector((state) => state.todo);
+  const { data: todos, isLoading, isError } = useGetTodosQuery(undefined);
+
+  if (isLoading) {
+    return <p>Loading....</p>;
+  }
 
   return (
     <div>
@@ -14,7 +20,7 @@ const TodoContainer = () => {
       </div>
       <div className="bg-primary-gradient w-full h-full rounded-xl  p-[5px]">
         <div className="bg-white p-5 w-ful h-full rounded-lg space-y-5">
-          {todos.map((item) => (
+          {todos?.data.map((item) => (
             <TodoCard {...item} />
           ))}
           {/* <div className="text-white font-bold text-2xl p-5 flex justify-center items-center">
@@ -25,7 +31,5 @@ const TodoContainer = () => {
     </div>
   );
 };
-
-
 
 export default TodoContainer;
