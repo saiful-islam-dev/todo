@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { Button } from "../ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -10,31 +11,23 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { DialogClose } from "@radix-ui/react-dialog";
-import { useAppDispatch } from "@/redux/hook";
-import { addTodo } from "@/redux/features/todoSlice";
 import { useAddTodoMutation } from "@/redux/api/api";
 
 const AddTodoModel = () => {
   const [task, setTask] = useState("");
-  const [discription, setDiscription] = useState("");
-  // for loacal state managment
-  // const dispatch = useAppDispatch();
+  const [description, setDescription] = useState("");
 
-  const [addTodo, {data,}] = useAddTodoMutation();
+  const [addTodo] = useAddTodoMutation();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // const randomString = Math.random().toString().substring(2, 7);
 
     const taskDetails = {
       title: task,
-      discription: discription,
+      description: description,
     };
-    
-    addTodo(taskDetails)
-    // for loacal state managment
-    // dispatch(addTodo(taskDetails));
+
+    addTodo(taskDetails);
   };
 
   return (
@@ -62,12 +55,12 @@ const AddTodoModel = () => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="discription" className="text-right">
-                Discription
+              <Label htmlFor="description" className="text-right">
+                Description
               </Label>
               <Input
-                onBlur={(e) => setDiscription(e.target.value)}
-                id="discription"
+                onBlur={(e) => setDescription(e.target.value)}
+                id="description"
                 className="col-span-3"
               />
             </div>
